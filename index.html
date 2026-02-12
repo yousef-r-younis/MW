@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             width: 85%;
             max-width: 400px;
             position: relative;
@@ -34,15 +35,23 @@
             transition: all 0.3s ease;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             font-family: 'Pacifico', cursive;
             margin-bottom: 1rem;
             color: #ff4757;
         }
 
-        h1 { font-size: 2.2rem; }
-        
-        p { font-size: 1.1rem; color: #555; margin-bottom: 1.5rem; line-height: 1.5; }
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
 
         input {
             padding: 12px;
@@ -56,7 +65,10 @@
             transition: 0.3s;
         }
 
-        input:focus { border-color: #ff6b6b; box-shadow: 0 0 8px rgba(255, 107, 107, 0.2); }
+        input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.2);
+        }
 
         button {
             background-color: #ff6b6b;
@@ -71,10 +83,17 @@
             margin-top: 10px;
         }
 
-        button:active { transform: scale(0.95); }
-        button:hover { background-color: #ff4757; }
+        button:active {
+            transform: scale(0.95);
+        }
 
-        .hidden { display: none; }
+        button:hover {
+            background-color: #ff4757;
+        }
+
+        .hidden {
+            display: none;
+        }
 
         .error-msg {
             color: #e74c3c;
@@ -115,6 +134,7 @@
             background-color: #a8e6cf;
             border: 2px solid #2ecc71;
             cursor: default;
+            transform: rotateY(180deg);
         }
 
         /* Photo Gallery Styles */
@@ -128,36 +148,54 @@
         .photo-frame {
             background: white;
             padding: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            transform: rotate(-2deg);
         }
-        
+
+        .photo-frame:nth-child(2) {
+            transform: rotate(2deg);
+        }
+
         .photo-frame img {
             width: 100%;
             border-radius: 4px;
+            display: block;
         }
 
         /* Animations */
-        .heart {
+        .falling-item {
             position: fixed;
             top: -10vh;
-            color: #ff4757;
             animation: fall linear forwards;
             z-index: 1;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
         }
 
-        .fade-in { animation: fadeIn 0.8s ease-in; }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div id="screen-welcome" class="container fade-in">
@@ -199,7 +237,7 @@
         <h2>Level 3: Match the Pairs</h2>
         <p>Find all the matching symbols!</p>
         <div class="game-grid" id="gameGrid">
-            </div>
+        </div>
         <div id="game-msg" class="hidden">
             <p style="color: #2ecc71; font-weight: bold;">All matched!</p>
             <button onclick="nextScreen('screen-game', 'screen-q4')">Next Level ➡️</button>
@@ -216,20 +254,22 @@
 
     <div id="screen-final" class="container hidden">
         <h1>Happy Valentine's Day!</h1>
-        
+
         <div class="photo-area">
             <div class="photo-frame">
-                <img src="https://images.unsplash.com/photo-1522093537031-29a087769013?q=80&w=500&auto=format&fit=crop" alt="Photo 1">
+                <img src="images/img1.png" alt="Us 1"
+                    onerror="this.src='https://placehold.co/400x300?text=Image+Not+Found';this.onerror=null;">
             </div>
             <div class="photo-frame">
-                <img src="https://images.unsplash.com/photo-1621112904887-419379ce6824?q=80&w=500&auto=format&fit=crop" alt="Photo 2">
+                <img src="images/img2.png" alt="Us 2"
+                    onerror="this.src='https://placehold.co/400x300?text=Image+Not+Found';this.onerror=null;">
             </div>
         </div>
 
         <p><strong>To my amazing Maria,</strong></p>
-        <p>Thank you for being you. Solving these puzzles was easy, but life without you would be the hardest puzzle of all.</p>
+        <p>Thank you for being you. Solving these puzzles was easy, but life without you would be the hardest puzzle of
+            all.</p>
         <p>I love you!</p>
-        
     </div>
 
     <script>
@@ -240,9 +280,9 @@
             const nextEl = document.getElementById(nextId);
             nextEl.classList.remove('hidden');
             nextEl.classList.add('fade-in');
-            
-            if(nextId === 'screen-final') {
-                createHearts();
+
+            if (nextId === 'screen-final') {
+                createFallingItems();
             }
         }
 
@@ -300,7 +340,7 @@
             nextScreen('screen-msg2', 'screen-game');
             const grid = document.getElementById('gameGrid');
             grid.innerHTML = '';
-            
+
             // Shuffle
             emojis.sort(() => 0.5 - Math.random());
 
@@ -349,7 +389,7 @@
         function disableCards() {
             firstCard.removeEventListener('click', flipCard);
             secondCard.removeEventListener('click', flipCard);
-            
+
             firstCard.classList.add('matched');
             secondCard.classList.add('matched');
 
@@ -372,19 +412,29 @@
             [firstCard, secondCard] = [null, null];
         }
 
-        // --- HEART ANIMATION ---
-        function createHearts() {
+        // --- UPDATED FALLING ANIMATION ---
+        // The items that will rain down
+        const fallingList = ['❤️', '💖', '🌹', '🍫', '🧸', '✨', '💝'];
+
+        function createFallingItems() {
             setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + "vw";
-                heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-                heart.style.fontSize = Math.random() * 20 + 10 + "px";
-                document.body.appendChild(heart);
-                setTimeout(() => { heart.remove(); }, 5000);
-            }, 300);
+                const item = document.createElement('div');
+                item.classList.add('falling-item');
+                // Pick a random item from the list
+                item.innerHTML = fallingList[Math.floor(Math.random() * fallingList.length)];
+
+                item.style.left = Math.random() * 100 + "vw";
+                // varied speeds and sizes
+                item.style.animationDuration = Math.random() * 3 + 2 + "s";
+                item.style.fontSize = Math.random() * 25 + 15 + "px";
+
+                document.body.appendChild(item);
+
+                // Remove item after it falls out of view
+                setTimeout(() => { item.remove(); }, 5000);
+            }, 200); // Create a new item every 200ms
         }
     </script>
 </body>
+
 </html>
