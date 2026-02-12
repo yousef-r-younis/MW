@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Maria ❤️</title>
+    <style>
+        /* --- CSS STYLES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #d63384;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 85%;
+            max-width: 400px;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        h1, h2 {
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 1rem;
+            color: #ff4757;
+        }
+
+        h1 { font-size: 2.2rem; }
+        
+        p { font-size: 1.1rem; color: #555; margin-bottom: 1.5rem; line-height: 1.5; }
+
+        input {
+            padding: 12px;
+            border-radius: 25px;
+            border: 2px solid #ffc1e3;
+            width: 70%;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: #ff6b6b; box-shadow: 0 0 8px rgba(255, 107, 107, 0.2); }
+
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+            margin-top: 10px;
+        }
+
+        button:active { transform: scale(0.95); }
+        button:hover { background-color: #ff4757; }
+
+        .hidden { display: none; }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            min-height: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* --- MEMORY GAME STYLES --- */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #ffc1e3;
+            height: 60px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            user-select: none;
+        }
+
+        .card.flipped {
+            background-color: #fff;
+            border: 2px solid #ff6b6b;
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            background-color: #a8e6cf;
+            border: 2px solid #2ecc71;
+            cursor: default;
+        }
+
+        /* Photo Gallery Styles */
+        .photo-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .photo-frame {
+            background: white;
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        /* Animations */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            color: #ff4757;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .fade-in { animation: fadeIn 0.8s ease-in; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="screen-welcome" class="container fade-in">
+        <h1>Hi Maria!</h1>
+        <p>A little challenge stands between you and your Valentine's surprise.</p>
+        <p>Complete the 4 levels to unlock the gift.</p>
+        <button onclick="nextScreen('screen-welcome', 'screen-q1')">Start Game ❤️</button>
+    </div>
+
+    <div id="screen-q1" class="container hidden">
+        <h2>Level 1</h2>
+        <p>I can be broken, but I have no bones. I can be won, but I am not a prize. <br>What am I?</p>
+        <input type="text" id="ans1" placeholder="Type your answer...">
+        <div class="error-msg" id="err1"></div>
+        <button onclick="checkRiddle(1)">Submit</button>
+    </div>
+
+    <div id="screen-msg1" class="container hidden">
+        <h2>Correct!</h2>
+        <p>And mine belongs entirely to you.</p>
+        <button onclick="nextScreen('screen-msg1', 'screen-q2')">Level 2 ➡️</button>
+    </div>
+
+    <div id="screen-q2" class="container hidden">
+        <h2>Level 2</h2>
+        <p>I come in many colors, but red is the classic choice. I have thorns, but I am beautiful.</p>
+        <input type="text" id="ans2" placeholder="What flower am I?">
+        <div class="error-msg" id="err2"></div>
+        <button onclick="checkRiddle(2)">Submit</button>
+    </div>
+
+    <div id="screen-msg2" class="container hidden">
+        <h2>Beautiful!</h2>
+        <p>Just like you.</p>
+        <button onclick="initGame()">Play Level 3 ➡️</button>
+    </div>
+
+    <div id="screen-game" class="container hidden">
+        <h2>Level 3: Match the Pairs</h2>
+        <p>Find all the matching symbols!</p>
+        <div class="game-grid" id="gameGrid">
+            </div>
+        <div id="game-msg" class="hidden">
+            <p style="color: #2ecc71; font-weight: bold;">All matched!</p>
+            <button onclick="nextScreen('screen-game', 'screen-q4')">Next Level ➡️</button>
+        </div>
+    </div>
+
+    <div id="screen-q4" class="container hidden">
+        <h2>Final Level</h2>
+        <p>It rhymes with "Dove", fits like a "Glove", and it's what I feel for you.</p>
+        <input type="text" id="ans4" placeholder="???">
+        <div class="error-msg" id="err4"></div>
+        <button onclick="checkRiddle(4)">Unlock Gift 🎁</button>
+    </div>
+
+    <div id="screen-final" class="container hidden">
+        <h1>Happy Valentine's Day!</h1>
+        
+        <div class="photo-area">
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1522093537031-29a087769013?q=80&w=500&auto=format&fit=crop" alt="Photo 1">
+            </div>
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1621112904887-419379ce6824?q=80&w=500&auto=format&fit=crop" alt="Photo 2">
+            </div>
+        </div>
+
+        <p><strong>To my amazing Maria,</strong></p>
+        <p>Thank you for being you. Solving these puzzles was easy, but life without you would be the hardest puzzle of all.</p>
+        <p>I love you!</p>
+        
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        function nextScreen(currentId, nextId) {
+            document.getElementById(currentId).classList.add('hidden');
+            const nextEl = document.getElementById(nextId);
+            nextEl.classList.remove('hidden');
+            nextEl.classList.add('fade-in');
+            
+            if(nextId === 'screen-final') {
+                createHearts();
+            }
+        }
+
+        // --- RIDDLE LOGIC ---
+        function checkRiddle(level) {
+            let ans = "";
+            let correct = "";
+            let errMsg = "";
+            let nextId = "";
+
+            if (level === 1) {
+                ans = document.getElementById('ans1').value.toLowerCase().trim();
+                correct = ["heart", "a heart", "my heart"];
+                errMsg = "Hint: It beats inside you!";
+                nextId = 'screen-msg1';
+            } else if (level === 2) {
+                ans = document.getElementById('ans2').value.toLowerCase().trim();
+                correct = ["rose", "a rose", "roses"];
+                errMsg = "Hint: It smells sweet!";
+                nextId = 'screen-msg2';
+            } else if (level === 4) {
+                ans = document.getElementById('ans4').value.toLowerCase().trim();
+                correct = ["love"];
+                errMsg = "Hint: L _ V E";
+                nextId = 'screen-final';
+            }
+
+            if (correct.includes(ans)) {
+                if (level === 4) {
+                    nextScreen('screen-q4', 'screen-final');
+                } else {
+                    nextScreen('screen-q' + level, nextId);
+                }
+            } else {
+                shakeInput('ans' + level);
+                document.getElementById('err' + level).innerText = errMsg;
+            }
+        }
+
+        function shakeInput(id) {
+            const el = document.getElementById(id);
+            el.style.transform = "translateX(10px)";
+            setTimeout(() => { el.style.transform = "translateX(-10px)"; }, 100);
+            setTimeout(() => { el.style.transform = "translateX(0)"; }, 200);
+        }
+
+        // --- MEMORY GAME LOGIC ---
+        const emojis = ['🌹', '🌹', '🍫', '🍫', '🧸', '🧸', '💍', '💍', '💌', '💌', '❤️', '❤️'];
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+        let matchCount = 0;
+
+        function initGame() {
+            nextScreen('screen-msg2', 'screen-game');
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            
+            // Shuffle
+            emojis.sort(() => 0.5 - Math.random());
+
+            emojis.forEach(emoji => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.emoji = emoji;
+                card.addEventListener('click', flipCard);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flipped');
+            this.innerText = this.dataset.emoji;
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
+
+            if (isMatch) {
+                disableCards();
+                matchCount++;
+                if (matchCount === emojis.length / 2) {
+                    setTimeout(() => {
+                        document.getElementById('game-msg').classList.remove('hidden');
+                    }, 500);
+                }
+            } else {
+                unflipCards();
+            }
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            
+            firstCard.classList.add('matched');
+            secondCard.classList.add('matched');
+
+            resetBoard();
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                firstCard.innerText = '';
+                secondCard.classList.remove('flipped');
+                secondCard.innerText = '';
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        // --- HEART ANIMATION ---
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+                heart.style.fontSize = Math.random() * 20 + 10 + "px";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 5000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
